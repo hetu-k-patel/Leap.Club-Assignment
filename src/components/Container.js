@@ -5,17 +5,29 @@ import Score from './Score';
 import './styles.css';
 import { CARDS_DATA } from '../storage/Data';
 
+const initialConfig = {
+   isFirstSelected: false,
+   firstSelectedCard: '',
+   secondSelectedCard: '',
+   matches: 0,
+   turn: 0,
+   isGameOver: false,
+};
+
 const Container = () => {
-   const [matches, setMatches] = useState(0);
-   const [turn, setTurn] = useState(0);
-   const [isFirstSelected, setIsFirstSelected] = useState(false);
-   const [firstSelectedCard, setFirstSelectedCard] = useState('');
-   const [secondSelectedCard, setSecondSelectedCard] = useState('');
+   // const [matches, setMatches] = useState(0);
+   // const [turn, setTurn] = useState(0);
+
+   const [configuration, setConfiguration] = useState(initialConfig);
+
+   // const [isFirstSelected, setIsFirstSelected] = useState(false);
+   // const [firstSelectedCard, setFirstSelectedCard] = useState('');
+   // const [secondSelectedCard, setSecondSelectedCard] = useState('');
    const [matchedCards, setMatchedCards] = useState([]);
-   const [isGameOver, setIsGameOver] = useState(false);
+   // const [isGameOver, setIsGameOver] = useState(false);
 
    useEffect(() => {
-      if (isGameOver) {
+      if (configuration.isGameOver) {
          const response = window.confirm('Want to play again ?');
          if (response) {
             window.location.reload();
@@ -23,35 +35,51 @@ const Container = () => {
             window.close();
          }
       }
-   }, [isGameOver]);
+   }, [configuration]);
 
    const handleSelection = (selectedCardValue) => {
-      if (!isFirstSelected) {
-         setIsFirstSelected(true);
-         setFirstSelectedCard(selectedCardValue);
+      const config = { ...configuration };
+      if (!config.isFirstSelected) {
+         config.isFirstSelected = true;
+         config.firstSelectedCard = selectedCardValue;
+         // setIsFirstSelected(true);
+         // setFirstSelectedCard(selectedCardValue);
+         setConfiguration({ ...config });
       } else {
-         setSecondSelectedCard(selectedCardValue);
+         config.secondSelectedCard = selectedCardValue;
+         setConfiguration({ ...config });
+         // setSecondSelectedCard(selectedCardValue);
+
          setTimeout(() => {
-            if (firstSelectedCard !== selectedCardValue) {
-               const result = firstSelectedCard.charAt(0) === selectedCardValue.charAt(0);
+            if (config.firstSelectedCard !== selectedCardValue) {
+               const result =
+                  config.firstSelectedCard.charAt(0) === selectedCardValue.charAt(0);
 
                if (result) {
                   if (matchedCards.length === 14) {
-                     setIsGameOver(true);
+                     // setIsGameOver(true);
+                     config.isGameOver = true;
                   }
                   setMatchedCards([
                      ...matchedCards,
-                     firstSelectedCard,
+                     config.firstSelectedCard,
                      selectedCardValue,
                   ]);
-                  setMatches((prevMatches) => prevMatches + 1);
+                  config.matches = config.matches + 1;
+                  // setMatches((prevMatches) => prevMatches + 1);
                }
 
-               setFirstSelectedCard('');
-               setSecondSelectedCard('');
-               setIsFirstSelected(false);
-               setTurn((prevTurn) => prevTurn + 1);
+               // setFirstSelectedCard('');
+               // setSecondSelectedCard('');
+               // setIsFirstSelected(false);
+               // setTurn((prevTurn) => prevTurn + 1);
+               config.firstSelectedCard = '';
+               config.secondSelectedCard = '';
+               config.isFirstSelected = false;
+               config.turn = config.turn + 1;
             }
+
+            setConfiguration({ ...config });
          }, 500);
       }
    };
@@ -61,13 +89,13 @@ const Container = () => {
          <div className="title">
             <h1>Memories Game</h1>
          </div>
-         <Score matches={matches} turn={turn} />
+         <Score matches={configuration.matches} turn={configuration.turn} />
          <Cards
             CARDS_DATA={CARDS_DATA}
             matchedCards={matchedCards}
             handleSelection={handleSelection}
-            firstSelectedCard={firstSelectedCard}
-            secondSelectedCard={secondSelectedCard}
+            firstSelectedCard={configuration.firstSelectedCard}
+            secondSelectedCard={configuration.secondSelectedCard}
          />
       </div>
    );
