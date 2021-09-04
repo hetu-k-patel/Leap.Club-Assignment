@@ -2,9 +2,8 @@ import React from 'react';
 
 import './styles.css';
 import BLANK from '../assests/images/Blank.jpg';
-let count = 1;
+
 const Cards = (props) => {
-   console.log('jnj' + count++);
    const {
       CARDS_DATA,
       matchedCards,

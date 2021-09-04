@@ -34,38 +34,37 @@ const Container = () => {
    }
 
    const handleSelection = async (selectedCardValue) => {
-      const config = { ...configuration };
-      if (!config.isFirstSelected) {
-         config.isFirstSelected = true;
-         config.firstSelectedCard = selectedCardValue;
-         setConfiguration({ ...config });
+      if (!configuration.isFirstSelected) {
+         configuration.isFirstSelected = true;
+         configuration.firstSelectedCard = selectedCardValue;
+         setConfiguration({ ...configuration });
       } else {
-         config.secondSelectedCard = selectedCardValue;
-         setConfiguration({ ...config });
-         await sleep(300);
+         configuration.secondSelectedCard = selectedCardValue;
+         setConfiguration({ ...configuration });
+         await sleep(500);
 
-         if (config.firstSelectedCard !== selectedCardValue) {
+         if (configuration.firstSelectedCard !== selectedCardValue) {
             const result =
-               config.firstSelectedCard.charAt(0) === selectedCardValue.charAt(0);
+               configuration.firstSelectedCard.charAt(0) === selectedCardValue.charAt(0);
 
             if (result) {
                if (matchedCards.length === 14) {
-                  config.isGameOver = true;
+                  configuration.isGameOver = true;
                }
                setMatchedCards([
                   ...matchedCards,
-                  config.firstSelectedCard,
+                  configuration.firstSelectedCard,
                   selectedCardValue,
                ]);
-               config.matches = config.matches + 1;
+               configuration.matches = configuration.matches + 1;
             }
-            config.firstSelectedCard = '';
-            config.secondSelectedCard = '';
-            config.isFirstSelected = false;
-            config.turn = config.turn + 1;
+            configuration.firstSelectedCard = '';
+            configuration.secondSelectedCard = '';
+            configuration.isFirstSelected = false;
+            configuration.turn = configuration.turn + 1;
          }
-         await sleep(300);
-         setConfiguration({ ...config });
+         setConfiguration({ ...configuration });
+         await sleep(1000);
       }
    };
 
