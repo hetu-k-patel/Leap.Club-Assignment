@@ -10,6 +10,7 @@ const Container = () => {
    const [turn, setTurn] = useState(0);
    const [isFirstSelected, setIsFirstSelected] = useState(false);
    const [firstSelectedCard, setFirstSelectedCard] = useState('');
+   const [secondSelectedCard, setSecondSelectedCard] = useState('');
    const [matchedCards, setMatchedCards] = useState([]);
    const [isGameOver, setIsGameOver] = useState(false);
 
@@ -29,22 +30,29 @@ const Container = () => {
          setIsFirstSelected(true);
          setFirstSelectedCard(selectedCardValue);
       } else {
-         console.log(firstSelectedCard, selectedCardValue);
-         if (firstSelectedCard !== selectedCardValue) {
-            const result = firstSelectedCard.charAt(0) === selectedCardValue.charAt(0);
+         setSecondSelectedCard(selectedCardValue);
+         setTimeout(() => {
+            if (firstSelectedCard !== selectedCardValue) {
+               const result = firstSelectedCard.charAt(0) === selectedCardValue.charAt(0);
 
-            if (result) {
-               if (matchedCards.length === 14) {
-                  setIsGameOver(true);
+               if (result) {
+                  if (matchedCards.length === 14) {
+                     setIsGameOver(true);
+                  }
+                  setMatchedCards([
+                     ...matchedCards,
+                     firstSelectedCard,
+                     selectedCardValue,
+                  ]);
+                  setMatches((prevMatches) => prevMatches + 1);
                }
-               setMatchedCards([...matchedCards, firstSelectedCard, selectedCardValue]);
-               setMatches((prevMatches) => prevMatches + 1);
-            }
 
-            setFirstSelectedCard('');
-            setIsFirstSelected(false);
-            setTurn((prevTurn) => prevTurn + 1);
-         }
+               setFirstSelectedCard('');
+               setSecondSelectedCard('');
+               setIsFirstSelected(false);
+               setTurn((prevTurn) => prevTurn + 1);
+            }
+         }, 500);
       }
    };
 
@@ -59,6 +67,7 @@ const Container = () => {
             matchedCards={matchedCards}
             handleSelection={handleSelection}
             firstSelectedCard={firstSelectedCard}
+            secondSelectedCard={secondSelectedCard}
          />
       </div>
    );
