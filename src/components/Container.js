@@ -15,16 +15,8 @@ const initialConfig = {
 };
 
 const Container = () => {
-   // const [matches, setMatches] = useState(0);
-   // const [turn, setTurn] = useState(0);
-
    const [configuration, setConfiguration] = useState(initialConfig);
-
-   // const [isFirstSelected, setIsFirstSelected] = useState(false);
-   // const [firstSelectedCard, setFirstSelectedCard] = useState('');
-   // const [secondSelectedCard, setSecondSelectedCard] = useState('');
    const [matchedCards, setMatchedCards] = useState([]);
-   // const [isGameOver, setIsGameOver] = useState(false);
 
    useEffect(() => {
       if (configuration.isGameOver) {
@@ -37,7 +29,7 @@ const Container = () => {
       }
    }, [configuration]);
 
-   function timeout(delay) {
+   function sleep(delay) {
       return new Promise((resolve) => setTimeout(resolve, delay));
    }
 
@@ -46,14 +38,11 @@ const Container = () => {
       if (!config.isFirstSelected) {
          config.isFirstSelected = true;
          config.firstSelectedCard = selectedCardValue;
-         // setIsFirstSelected(true);
-         // setFirstSelectedCard(selectedCardValue);
          setConfiguration({ ...config });
       } else {
          config.secondSelectedCard = selectedCardValue;
          setConfiguration({ ...config });
-         // setSecondSelectedCard(selectedCardValue);
-         await timeout(300);
+         await sleep(300);
 
          if (config.firstSelectedCard !== selectedCardValue) {
             const result =
@@ -61,7 +50,6 @@ const Container = () => {
 
             if (result) {
                if (matchedCards.length === 14) {
-                  // setIsGameOver(true);
                   config.isGameOver = true;
                }
                setMatchedCards([
@@ -70,19 +58,13 @@ const Container = () => {
                   selectedCardValue,
                ]);
                config.matches = config.matches + 1;
-               // setMatches((prevMatches) => prevMatches + 1);
             }
-
-            // setFirstSelectedCard('');
-            // setSecondSelectedCard('');
-            // setIsFirstSelected(false);
-            // setTurn((prevTurn) => prevTurn + 1);
             config.firstSelectedCard = '';
             config.secondSelectedCard = '';
             config.isFirstSelected = false;
             config.turn = config.turn + 1;
          }
-         await timeout(300);
+         await sleep(300);
          setConfiguration({ ...config });
       }
    };
