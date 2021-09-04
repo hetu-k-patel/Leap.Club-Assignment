@@ -5,9 +5,9 @@ import './App.css';
 
 const App = () => {
    useEffect(() => {
-      window.addEventListener('beforeunload', (ev) => {
-         ev.preventDefault();
-         return (ev.returnValue = 'Are you sure you want to leave?');
+      window.addEventListener('beforeunload', (event) => {
+         event.preventDefault();
+         return (event.returnValue = 'Are you sure you want to leave?');
       });
       return () => {
          window.removeEventListener('beforeunload');

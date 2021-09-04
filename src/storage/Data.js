@@ -1,6 +1,6 @@
 import ImageA from '../assests/images/A.jpg';
 import ImageB from '../assests/images/B.jpg';
-import ImageC from '../assests/images/C.webp';
+import ImageC from '../assests/images/C.jpg';
 import ImageD from '../assests/images/D.jpg';
 import ImageE from '../assests/images/E.jpg';
 import ImageF from '../assests/images/F.jpg';
