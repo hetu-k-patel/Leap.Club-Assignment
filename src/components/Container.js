@@ -41,7 +41,7 @@ const Container = () => {
       } else {
          configuration.secondSelectedCard = selectedCardValue;
          setConfiguration({ ...configuration });
-         await sleep(500);
+         await sleep(800);
 
          if (configuration.firstSelectedCard !== selectedCardValue) {
             const result =
