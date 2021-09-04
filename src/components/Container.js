@@ -37,7 +37,11 @@ const Container = () => {
       }
    }, [configuration]);
 
-   const handleSelection = (selectedCardValue) => {
+   function timeout(delay) {
+      return new Promise((resolve) => setTimeout(resolve, delay));
+   }
+
+   const handleSelection = async (selectedCardValue) => {
       const config = { ...configuration };
       if (!config.isFirstSelected) {
          config.isFirstSelected = true;
@@ -49,38 +53,37 @@ const Container = () => {
          config.secondSelectedCard = selectedCardValue;
          setConfiguration({ ...config });
          // setSecondSelectedCard(selectedCardValue);
+         await timeout(300);
 
-         setTimeout(() => {
-            if (config.firstSelectedCard !== selectedCardValue) {
-               const result =
-                  config.firstSelectedCard.charAt(0) === selectedCardValue.charAt(0);
+         if (config.firstSelectedCard !== selectedCardValue) {
+            const result =
+               config.firstSelectedCard.charAt(0) === selectedCardValue.charAt(0);
 
-               if (result) {
-                  if (matchedCards.length === 14) {
-                     // setIsGameOver(true);
-                     config.isGameOver = true;
-                  }
-                  setMatchedCards([
-                     ...matchedCards,
-                     config.firstSelectedCard,
-                     selectedCardValue,
-                  ]);
-                  config.matches = config.matches + 1;
-                  // setMatches((prevMatches) => prevMatches + 1);
+            if (result) {
+               if (matchedCards.length === 14) {
+                  // setIsGameOver(true);
+                  config.isGameOver = true;
                }
-
-               // setFirstSelectedCard('');
-               // setSecondSelectedCard('');
-               // setIsFirstSelected(false);
-               // setTurn((prevTurn) => prevTurn + 1);
-               config.firstSelectedCard = '';
-               config.secondSelectedCard = '';
-               config.isFirstSelected = false;
-               config.turn = config.turn + 1;
+               setMatchedCards([
+                  ...matchedCards,
+                  config.firstSelectedCard,
+                  selectedCardValue,
+               ]);
+               config.matches = config.matches + 1;
+               // setMatches((prevMatches) => prevMatches + 1);
             }
 
-            setConfiguration({ ...config });
-         }, 500);
+            // setFirstSelectedCard('');
+            // setSecondSelectedCard('');
+            // setIsFirstSelected(false);
+            // setTurn((prevTurn) => prevTurn + 1);
+            config.firstSelectedCard = '';
+            config.secondSelectedCard = '';
+            config.isFirstSelected = false;
+            config.turn = config.turn + 1;
+         }
+         await timeout(300);
+         setConfiguration({ ...config });
       }
    };
 
