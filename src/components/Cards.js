@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './styles.css';
+import BLANK from '../assests/images/Blank.jpg';
 
 const Cards = (props) => {
    const {
@@ -34,7 +35,7 @@ const Cards = (props) => {
                         <img
                            onClick={handleClick}
                            data-value={card.value}
-                           src="https://images.unsplash.com/photo-1544526226-d4568090ffb8?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aGQlMjBpbWFnZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80"
+                           src={BLANK}
                            alt={card.value}
                         />
                      )}
